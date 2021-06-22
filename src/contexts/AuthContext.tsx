@@ -5,11 +5,13 @@ type User = {
   id: string;
   name: string;
   avatar: string;
+  provider: string,
 };
 
 type AuthContextType = {
   user: User | undefined;
   signInWithGoogle: () => Promise<void>;
+  signInWithGithub: () => Promise<void>;
 };
 
 type AuthContextProviderProps = {
@@ -23,19 +25,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const { displayName, photoURL, uid } = user;
-
-        if (!displayName || !photoURL) {
-          throw new Error("Missing information from Google Account.");
-        }
-
-        setUser({
-          id: uid,
-          name: displayName,
-          avatar: photoURL,
-        });
-      }
+      console.log(user);
+      handleUserValidation({user});
     });
 
     return () => {
@@ -47,25 +38,41 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     const result = await auth.signInWithPopup(provider);
+    handleUserValidation(result);
+  }
 
-    if (result.user) {
-      const { displayName, photoURL, uid } = result.user;
+  async function signInWithGithub() {
+    const provider = new firebase.auth.GithubAuthProvider();
+
+    const result = await auth.signInWithPopup(provider);
+    handleUserValidation(result);
+  }
+
+  function handleUserValidation(authResponse: any) {
+    console.log(authResponse);
+    
+    if (authResponse.user) {
+      const { displayName, photoURL, uid } = authResponse.user
+      const { providerId } = authResponse.user.providerData[0];
 
       if (!displayName || !photoURL) {
-        throw new Error("Missing information from Google Account.");
+        throw new Error("Missing information from Auth Provider.");
       }
 
       setUser({
         id: uid,
         name: displayName,
         avatar: photoURL,
+        provider: providerId
       });
+
+      console.log('Auth OK');
     }
   }
   
   return (
     <AuthContext.Provider
-      value={{ user, signInWithGoogle }}
+      value={{ user, signInWithGoogle, signInWithGithub }}
     >
       {props.children}
     </AuthContext.Provider>

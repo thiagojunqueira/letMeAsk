@@ -92,12 +92,10 @@
     }
   }
 
-  .create-room {
-    margin-top: 64px;
+  .create-room-button {
     height: 50px;
     border-radius: 8px;
     font-weight: 500;
-    background: #ea4335;
     color: #FFF;
 
     display: flex;
@@ -116,6 +114,16 @@
     &:hover {
       filter: brightness(0.9);
     }
+  }
+
+  .google-button {
+    margin-top: 64px;
+    background: #ea4335;
+  }
+
+  .github-button {
+    margin-top: 16px;
+    background: #383838
   }
 
   .separator {
