@@ -17,7 +17,6 @@ export function RoomsList() {
   return (
     <div className="cards">
       <div className={"card " + (isAdmin && "adm")}>
-        <Toaster position='top-center'/>
         <header>
           <div className="title">
             <h3>Live de encerramento NLW</h3>
@@ -33,6 +32,7 @@ export function RoomsList() {
             <button onClick={callToaster}>Ir para sala</button>
           </div>
         </header>
+        <Toaster position='top-center'/>
 
         <div className="author">
           <span>Responsável: </span>

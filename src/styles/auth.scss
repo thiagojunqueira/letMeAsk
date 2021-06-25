@@ -1,37 +1,8 @@
 #page-auth {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   align-items: stretch;
   height: 100vh;
-
-  aside {
-    flex: 7;
-
-    background: #835afd;
-    color: #fff;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    padding: 120px 80px;
-
-    img {
-      max-width: 320px;
-    }
-
-    strong {
-      font: 700 36px 'Poppins', sans-serif;
-      line-height: 42px;
-      margin-top: 16px;
-    }
-
-    p {
-      font-size: 24px;
-      line-height: 32px;
-      margin-top: 16px;
-      color: #f8f8f8;
-    }
-  }
 
   main {
     display: flex;
@@ -39,7 +10,7 @@
     align-items: center;
     justify-content: center;
 
-    padding: 0 32px;
+    padding: 32px;
   }
 }
 
@@ -47,8 +18,9 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 320px;
-    align-items: stretch;
+    max-width: 450px;
+    align-items: center;
+    justify-content: center;
 
     text-align: center;
 
@@ -63,24 +35,6 @@
       font-family: 'Poppins', sans-serif;
     }
 
-    form {
-      input {
-        height: 50px;
-        border-radius: 8px;
-        padding: 0 16px;
-        background: #FFF;
-        border: 1px solid #a8a8b3
-      }
-
-      button {
-        margin-top: 16px;
-      }
-
-      button, input {
-        width: 100%;
-      }
-    }
-
     p {
       font-size: 14px;
       color: #737380;
@@ -92,47 +46,14 @@
     }
   }
 
-  .create-room-button {
-    height: 50px;
-    border-radius: 8px;
-    font-weight: 500;
-    color: #FFF;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    cursor: pointer;
-    border: 0;
-
-    transition: filter 0.2s;
-
-    img {
-      margin-right: 8px;
-    }
-
-    &:hover {
-      filter: brightness(0.9);
-    }
-  }
-
-  .google-button {
-    margin-top: 64px;
-    background: #ea4335;
-  }
-
-  .github-button {
-    margin-top: 16px;
-    background: #383838
-  }
-
   .separator {
     font-size: 14px;
     color: #a8a8b3;
     
-    margin: 32px 0;
+    margin: 64px 0 12px;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    justify-content: stretch;
 
     &::before {
       content: '';

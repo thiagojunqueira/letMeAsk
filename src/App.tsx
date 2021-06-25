@@ -5,6 +5,7 @@ import { NewRoom } from "./pages/NewRoom";
 import { Room } from "./pages/Room";
 import { RoomsList } from "./pages/RoomsList";
 import { AdminRoom } from "./pages/AdminRoom";
+import { JoinRoom } from "./pages/JoinRoom";
 
 import { UserProfile } from './components/UserProfile'
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/rooms" exact component={RoomsList} />
           <Route path="/rooms/new" component={NewRoom} />
+          <Route path="/rooms/join" component={JoinRoom} />
           <Route path="/rooms/:id" component={Room} />
           <Route path="/user" component={UserProfile} />
           

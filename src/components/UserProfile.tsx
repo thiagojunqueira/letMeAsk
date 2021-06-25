@@ -1,23 +1,39 @@
 import "../styles/userProfile.scss";
 
 import logoutImg from "../assets/images/logout.svg";
+import useAuth from "../hooks/useAuth";
+import { Button } from "./Button";
+import { useHistory } from "react-router-dom";
 
 export function UserProfile() {
+  const { user, signOut } = useAuth();
+  const history = useHistory();
+
+  function handleSignOut() {
+    if(user) {
+      if (window.confirm("Deseja sair da sua conta?")) {
+        signOut();
+      }
+    }
+  } 
+
   return (
     <div id="content">
       <header>
-        <span>Autenticado com <strong>Google</strong></span>
+        <span>Autenticado com <strong>{user?.provider.split('.')[0]}</strong></span>
         <div>
-          <img src={logoutImg} alt="logout" />
+          <button onClick={handleSignOut}>
+            <img src={logoutImg} alt="logout" />
+          </button>
           {/* <button>Sair</button> */}
           {/* <span>Sair</span> */}
         </div>
       </header>
 
       <div className="user-info">
-        <img src="https://avatars.githubusercontent.com/u/63688785?v=4" alt="avatar" />
-        <h3>Thiago Junqueira</h3>
-        <span>thiago.palermoj@gmail.com</span>
+        <img src={user?.avatar} alt="avatar" />
+        <h3>{user?.name}</h3>
+        <span>{user?.id}</span>
       </div>
 
       <div className="stats">
@@ -52,6 +68,14 @@ export function UserProfile() {
           <p>Perguntas respondidas</p>
           <span>04</span>
         </section>
+      </div>
+
+      <div className="actions">
+        <Button onClick={() => history.push('/rooms')}>Listar salas conhecidas</Button>
+        <div className="sub-actions">
+          <Button isOutlined onClick={() => history.push('/rooms/new')}>Criar nova sala</Button>
+          <Button isOutlined onClick={() => history.push('/rooms/join')}>Entrar em uma sala</Button>
+        </div>
       </div>
     </div>
   );

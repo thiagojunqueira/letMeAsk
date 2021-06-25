@@ -1,0 +1,83 @@
+#page-join-room {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: stretch;
+  height: 100vh;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex: 8;
+    align-items: center;
+    justify-content: center;
+
+    width: 500px;
+    margin: 0 auto;
+    padding: 32px;
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      margin: 16px 0px 32px 0px;
+
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
+
+      h2 {
+        margin: 0px 0px 8px;
+        font-size: 24px;
+        color: #472b9b;
+        font-family: "Poppins", sans-serif;
+      }
+
+      span {
+        color: #a2a2a2;
+        font-size: 12px;
+      }
+    }
+
+    form {
+      display: flex;
+      align-items: center;
+      margin: 16px 0px 32px;
+      width: 100%;
+
+      input {
+        height: 50px;
+        border-radius: 8px;
+        padding: 0 16px;
+        background: #fff;
+        border: 1px solid #a8a8b3;
+        width: 100%;
+        font-size: 14px;
+      }
+    }
+
+    button {
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      text-decoration: underline;
+      color: #adadad;
+
+      cursor: pointer;
+
+      &:hover {
+        color: #979797;
+      }
+    }
+  }
+
+  .enter-room {
+    background: transparent;
+    border: none;
+    margin-left: 12px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+}
