@@ -25,7 +25,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log(user);
+      // console.log(user);
       handleUserValidation({user});
     });
 
@@ -49,7 +49,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }
 
   function handleUserValidation(authResponse: any) {
-    console.log(authResponse);
+    // console.log(authResponse);
     
     if (authResponse.user) {
       const { displayName, photoURL, uid } = authResponse.user
@@ -65,8 +65,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         avatar: photoURL,
         provider: providerId
       });
-
-      console.log('Auth OK');
     }
   }
   

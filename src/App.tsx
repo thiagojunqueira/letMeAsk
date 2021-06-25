@@ -4,6 +4,8 @@ import { Home } from "./pages/Home";
 import { NewRoom } from "./pages/NewRoom";
 import { Room } from "./pages/Room";
 import { RoomsList } from "./pages/RoomsList";
+import { AdminRoom } from "./pages/AdminRoom";
+
 import { UserProfile } from './components/UserProfile'
 
 import "./services/firebase";
@@ -20,6 +22,9 @@ function App() {
           <Route path="/rooms/new" component={NewRoom} />
           <Route path="/rooms/:id" component={Room} />
           <Route path="/user" component={UserProfile} />
+          
+          <Route path="/admin/rooms/:id" component={AdminRoom} />
+          
         </Switch>
       </AuthContextProvider>
     </BrowserRouter>
