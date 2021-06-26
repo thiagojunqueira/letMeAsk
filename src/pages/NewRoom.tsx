@@ -3,7 +3,6 @@ import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
-import illustrationImg from "../assets/images/illustration.svg";
 import logoImg from "../assets/images/logo.svg";
 import backImg from "../assets/images/back.svg";
 import errorImg from "../assets/images/error.svg";
@@ -46,7 +45,10 @@ export function NewRoom() {
       authorId: user?.id,
     });
 
-    history.push(`/admin/rooms/${firebaseRoom.key}`);
+    toast.success('Sucesso! Redirecionando...')
+    setTimeout(() => {
+      history.push(`/admin/rooms/${firebaseRoom.key}`);
+    }, 2000);
   }
 
   return (
@@ -110,7 +112,7 @@ export function NewRoom() {
               </form>
               <p>
                 Quer entrar em uma sala existente?{" "}
-                <Link to="/rooms/enter">Clique aqui!</Link>
+                <Link to="/rooms/join">Clique aqui!</Link>
               </p>
             </>
           ) : (

@@ -46,28 +46,21 @@
     }
   }
 
-  .separator {
+  .join-as-visitor {
     font-size: 14px;
-    color: #a8a8b3;
+    background: transparent;
+    border: none;
+    color: #a3a3a3;
     
     margin: 64px 0 12px;
     display: flex;
     align-items: stretch;
     justify-content: stretch;
 
-    &::before {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #a8a8b3;
-      margin-right: 16px;
-    }
+    cursor: pointer;
+    text-decoration: underline;
 
-    &::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #a8a8b3;
-      margin-left: 16px;
+    &:hover {
+      color: #888888;
     }
   }

@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import logoImg from "../assets/images/logo.svg";
 import { LeftPanel } from "../components/LeftPanel";
 
@@ -10,6 +11,7 @@ import "../styles/auth.scss";
 
 export function Home() {
   const { user } = useAuth();
+  const history = useHistory();
 
   return (
     <div id="page-auth">
@@ -22,9 +24,9 @@ export function Home() {
           ) : (
             <>
               <LoginOptions />
-              <div className="separator">
+              <button onClick={() => history.push('/rooms/join')}  className="join-as-visitor">
                 Ou entre em uma sala como visitante
-              </div>
+              </button>
             </>
           )}
         </div>

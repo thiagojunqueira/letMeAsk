@@ -23,7 +23,6 @@ function App() {
           <Route path="/rooms/new" component={NewRoom} />
           <Route path="/rooms/join" component={JoinRoom} />
           <Route path="/rooms/:id" component={Room} />
-          <Route path="/user" component={UserProfile} />
           
           <Route path="/admin/rooms/:id" component={AdminRoom} />
           

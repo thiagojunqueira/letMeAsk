@@ -1,139 +1,158 @@
-.card {
-  max-width: 700px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  margin: 24px;
+#page-rooms-list {
+  margin: 64px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  .cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-  font-family: 'Poppins';
-
-  &:hover {
-    background: #fbfbfb;
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.5);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px;
   }
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+  .card {
+    width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    margin: 24px;
 
-    .title {
+    font-family: "Poppins";
+
+    &:hover {
+      background: #fbfbfb;
+      box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
 
-      h3 {
-        font-size: 24px;
+      .title {
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+          font-size: 24px;
+        }
+
+        .star {
+          display: flex;
+          align-items: center;
+
+          img {
+            margin-right: 8px;
+            height: 20px;
+          }
+
+          span {
+            font-size: 12px;
+            color: #fdd72e;
+          }
+        }
       }
 
-      .star {
+      .room-info {
         display: flex;
-        align-items: center;
-
-        img {
-          margin-right: 8px;
-          height: 20px;
-        }
+        flex-direction: column;
+        // justify-content: center;
+        align-items: flex-end;
 
         span {
           font-size: 12px;
-          color: #fdd72e;
+          color: #cfcfcf;
+          margin-bottom: 8px;
+        }
+
+        button {
+          border: none;
+          background: #835afd;
+          color: #e7e7e7;
+          border-radius: 8px;
+          font-size: 14px;
+          padding: 6px 20px;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+
+          cursor: pointer;
+
+          &:hover {
+            filter: brightness(0.9);
+          }
         }
       }
     }
 
-    .room-info {
+    .author {
+      font-size: 18px;
+      color: #585858;
+      margin-bottom: 8px;
+
+      .author-name {
+        font-style: italic;
+      }
+    }
+
+    footer {
       display: flex;
-      flex-direction: column;
-      // justify-content: center;
-      align-items: flex-end;
+      justify-content: space-between;
+      align-items: center;
 
-      span {
-        font-size: 12px;
-        color: #cfcfcf;
-        margin-bottom: 8px;
+      strong {
+        color: #757575;
+        font-weight: 600;
       }
 
-      button {
-        border: none;
-        background: #835afd;
-        color: #e7e7e7;
-        border-radius: 8px;
-        font-size: 14px;
-        padding: 6px 20px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-
-        cursor: pointer;
-
-        &:hover {
-          filter: brightness(0.9);
-        }
-      }
-    }
-  }
-
-  .author {
-    font-size: 18px;
-    color: #585858;
-    margin-bottom: 8px;
-
-    .author-name {
-      font-style: italic;
-    }
-  }
-
-  footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    strong {
-      color: #757575;
-      font-weight: 600;
-    }
-
-    .actions {
-      button {
-        border: none;
-        background: none;
-        height: 16px;
-        width: 16px;
-
-        text-align: right;
-        margin-left: 16px;
-
-        cursor: pointer;
-
-        img {
+      .actions {
+        button {
+          border: none;
+          background: none;
           height: 16px;
           width: 16px;
-        }
 
-        &:hover {
-          // background: royalblue;
-          filter: blur(0.5px);
-          filter: opacity(60%);
+          text-align: right;
+          margin-left: 16px;
+
+          cursor: pointer;
+
+          img {
+            height: 16px;
+            width: 16px;
+          }
+
+          &:hover {
+            // background: royalblue;
+            filter: blur(0.5px);
+            filter: opacity(60%);
+          }
         }
       }
     }
   }
-}
 
-.adm {
-  box-shadow: 0px 6px 6px rgba(255, 230, 60, 0.2);
-  border: 1px solid #c39314;
-  background: #fff;
+  .adm {
+    box-shadow: 0px 6px 6px rgba(255, 230, 60, 0.2);
+    border: 1px solid #c39314;
+    background: #fff;
 
-  &:hover {
-    background: #ffffef;
-    box-shadow: 0px 6px 6px rgba(255, 230, 60, 0.5);
-  }
+    &:hover {
+      background: #ffffef;
+      box-shadow: 0px 6px 6px rgba(255, 230, 60, 0.5);
+    }
 
-  header {
-    .room-info {
-      button {
-        background: #c39314;
+    header {
+      .room-info {
+        button {
+          background: #c39314;
+        }
       }
     }
   }

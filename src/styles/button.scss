@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
+  // flex-grow: 1;
 
   cursor: pointer;
   border: 0;
@@ -27,10 +27,14 @@
     background: #FFF;
     border: 1px solid #835afd;
     color: #835afd;
+
+    &:not(disabled):hover {
+      background: #fafafa;
+    }
   }
 
-  &:not(disabled):hover {
-    filter: brightness(0.9);
+  &:not(disabled):not(.outlined):hover {
+    filter: brightness(0.90);
   }
 
   &:disabled {

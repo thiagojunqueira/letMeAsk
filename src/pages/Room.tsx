@@ -1,13 +1,16 @@
-import { FormEvent, useState } from "react";
-import { useParams } from "react-router-dom";
+import { FormEvent, useState, useEffect } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 import logoImg from "../assets/images/logo.svg";
 import { Button } from "../components/Button";
+import { LoginOptions } from "../components/LoginOptions";
 import { Question } from "../components/Question";
 import { RoomCode } from "../components/RoomCode";
 import useAuth from "../hooks/useAuth";
 import { useRoom } from "../hooks/useRoom";
 import { database } from "../services/firebase";
+
+import toast, { Toaster } from "react-hot-toast";
 
 import "../styles/room.scss";
 
@@ -16,12 +19,20 @@ type RoomParams = {
 };
 
 export function Room() {
+  const history = useHistory();
   const { user } = useAuth();
   const roomParams = useParams<RoomParams>();
   const roomId = roomParams.id;
-  const { title, questions } = useRoom(roomId);
-
+  const { title, questions, authorId } = useRoom(roomId);
   const [newQuestion, setNewQuestion] = useState("");
+
+  const [loginPanelOpen, setLoginPanelOpen] = useState(false);
+
+  useEffect(() => {
+    if (user?.id === authorId) {
+      history.push(`/admin/rooms/${roomId}`);
+    }
+  }, [user, authorId, roomId, history]);
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -31,7 +42,8 @@ export function Room() {
     }
 
     if (!user) {
-      throw new Error("Voce precisa estar autenticado");
+      toast.error("Voce precisa estar autenticado");
+      return;
     }
 
     const question = {
@@ -46,6 +58,7 @@ export function Room() {
     };
 
     await database.ref(`rooms/${roomId}/questions`).push(question);
+    toast.success("Pergunta enviada com sucesso!")
 
     setNewQuestion("");
   }
@@ -54,30 +67,39 @@ export function Room() {
     questionId: string,
     likeId: string | undefined
   ) {
+    if (!user) {
+      toast.error('Você precisa estar logado para curtir uma pergunta.');
+      return;
+    }
     if (likeId) {
       await database
         .ref(`rooms/${roomId}/questions/${questionId}/likes/${likeId}`)
         .remove();
+        toast.success('Curtida removida com sucesso!')
     } else {
       await database.ref(`rooms/${roomId}/questions/${questionId}/likes`).push({
         authorId: user?.id,
       });
+      toast.success('Mensagem curtida!')
     }
   }
 
   return (
     <div id="page-room">
+      <Toaster />
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask" />
+          <Link to="/">
+            <img src={logoImg} alt="logo" />
+          </Link>
           <RoomCode code={roomId} />
         </div>
       </header>
 
       <main>
         <div className="room-title">
-          <h1>Sala {title}</h1>
-          {questions.length > 0 && <span>{questions.length} Perguntas</span>}
+          <h1>{title}</h1>
+          {questions.length > 0 && <span>{questions.length} Pergunta(s)</span>}
         </div>
 
         <form onSubmit={handleSendQuestion}>
@@ -94,7 +116,10 @@ export function Room() {
               </div>
             ) : (
               <span>
-                Para enviar uma pergunta, <button>faça seu login</button>
+                Para enviar uma pergunta,
+                <button onClick={() => setLoginPanelOpen(!loginPanelOpen)}>
+                  faça seu login
+                </button>
               </span>
             )}
             <Button type="submit" disabled={!user}>
@@ -102,6 +127,12 @@ export function Room() {
             </Button>
           </div>
         </form>
+
+        {loginPanelOpen && !user && (
+          <div className="login-panel">
+            <LoginOptions />
+          </div>
+        )}
 
         <div className="question-list">
           {questions.map((question) => {

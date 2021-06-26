@@ -3,12 +3,12 @@ import { useHistory } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 import logoImg from "../assets/images/logo.svg";
-import enterRoomImg from "../assets/images/enter.svg";
 
 import { database } from "../services/firebase";
 
 import "../styles/joinRoom.scss";
 import { LeftPanel } from "../components/LeftPanel";
+import { Button } from "../components/Button";
 
 export function JoinRoom() {
   const history = useHistory();
@@ -58,11 +58,9 @@ export function JoinRoom() {
               onChange={(event) => setRoomCode(event.target.value)}
               value={roomCode}
             />
-            <button className="enter-room" type="submit">
-              <img src={enterRoomImg} alt="Entrar na sala" />
-            </button>
+            <Button>Entrar na sala</Button>
           </form>
-          <button onClick={() => history.push("/")}>
+          <button className="go-back" onClick={() => history.push("/")}>
             Voltar para página inicial
           </button>
         </div>
