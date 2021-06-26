@@ -7,8 +7,6 @@ import { RoomsList } from "./pages/RoomsList";
 import { AdminRoom } from "./pages/AdminRoom";
 import { JoinRoom } from "./pages/JoinRoom";
 
-import { UserProfile } from './components/UserProfile'
-
 import "./services/firebase";
 
 import { AuthContextProvider } from "./contexts/AuthContext";

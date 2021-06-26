@@ -3,7 +3,13 @@
   grid-template-columns: 1fr 2fr;
   align-items: stretch;
   height: 100vh;
-
+  
+  @media (max-width: 1000px) {
+    display: flex;
+    .content {
+      max-width: 500px;
+    }
+  }
   .content {
     display: flex;
     flex-direction: column;

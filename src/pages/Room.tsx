@@ -23,14 +23,94 @@ export function Room() {
   const { user } = useAuth();
   const roomParams = useParams<RoomParams>();
   const roomId = roomParams.id;
-  const { title, questions, authorId } = useRoom(roomId);
+  const { title, questions, authorId, removedAt } = useRoom(roomId);
   const [newQuestion, setNewQuestion] = useState("");
 
   const [loginPanelOpen, setLoginPanelOpen] = useState(false);
 
   useEffect(() => {
+    async function addUserToDatabase() {
+      const firebaseUser = await database.ref("users").push({
+        userId: user?.id,
+        avatar: user?.avatar,
+        name: user?.name,
+      });
+
+      return firebaseUser.key || "";
+    }
+
+    async function addRoomOnUserProfile(firebaseUserId: string | null) {
+      if (firebaseUserId) {
+        await database.ref(`users/${firebaseUserId}/rooms`).push({
+          roomId: roomId,
+        });
+      }
+    }
+
+    async function isRoomOnUserProfile(firebaseUserId: string | null) {
+      let foundRoom = false;
+      await database
+        .ref(`users/${firebaseUserId}/rooms`)
+        .once("value", (data) => {
+          if (data.val()) {
+            const parsedRooms = Object.entries(data.val()).map(
+              ([key, value]: any) => {
+                return {
+                  firebaseRoomId: key,
+                  roomId: value.roomId,
+                };
+              }
+            );
+            // eslint-disable-next-line array-callback-return
+            return parsedRooms.find((room) =>
+              room.roomId === roomId ? (foundRoom = true) : null
+            );
+          }
+        });
+      return foundRoom;
+    }
+
+    async function updateUserInfo() {
+      if (user) {
+        await database
+          .ref("users")
+          .orderByChild("userId")
+          .equalTo(user.id)
+          .once("value", async (user) => {
+            const userData = user.val();
+            if (userData) {
+              const parsedUser = Object.entries(userData).map(
+                ([key, value]: any) => {
+                  return {
+                    firebaseUserKey: key,
+                  };
+                }
+              );
+              const isRegisteredOnRoom = await isRoomOnUserProfile(
+                parsedUser[0].firebaseUserKey
+              );
+              if (!isRegisteredOnRoom) {
+                addRoomOnUserProfile(parsedUser[0].firebaseUserKey);
+              }
+            } else {
+              const userKey = await addUserToDatabase();
+              addRoomOnUserProfile(userKey);
+            }
+          });
+      }
+    }
+
+    updateUserInfo();
+  }, [roomId, user]);
+
+  useEffect(() => {
     if (user?.id === authorId) {
-      history.push(`/admin/rooms/${roomId}`);
+      toast.loading("Você é o admin desta sala! Redirecionando..", {
+        duration: 2000,
+      });
+      setTimeout(() => {
+        history.push(`/admin/rooms/${roomId}`);
+      }, 2000);
     }
   }, [user, authorId, roomId, history]);
 
@@ -58,7 +138,7 @@ export function Room() {
     };
 
     await database.ref(`rooms/${roomId}/questions`).push(question);
-    toast.success("Pergunta enviada com sucesso!")
+    toast.success("Pergunta enviada com sucesso!");
 
     setNewQuestion("");
   }
@@ -68,19 +148,19 @@ export function Room() {
     likeId: string | undefined
   ) {
     if (!user) {
-      toast.error('Você precisa estar logado para curtir uma pergunta.');
+      toast.error("Você precisa estar logado para curtir uma pergunta.");
       return;
     }
     if (likeId) {
       await database
         .ref(`rooms/${roomId}/questions/${questionId}/likes/${likeId}`)
         .remove();
-        toast.success('Curtida removida com sucesso!')
+      toast.success("Curtida removida com sucesso!");
     } else {
       await database.ref(`rooms/${roomId}/questions/${questionId}/likes`).push({
         authorId: user?.id,
       });
-      toast.success('Mensagem curtida!')
+      toast.success("Mensagem curtida!");
     }
   }
 
@@ -102,36 +182,41 @@ export function Room() {
           {questions.length > 0 && <span>{questions.length} Pergunta(s)</span>}
         </div>
 
-        <form onSubmit={handleSendQuestion}>
-          <textarea
-            placeholder="O que deseja perguntar?"
-            value={newQuestion}
-            onChange={(event) => setNewQuestion(event.target.value)}
-          />
-          <div className="form-footer">
-            {user ? (
-              <div className="user-data">
-                <img src={user.avatar} alt={user.name} />
-                <span>{user.name}</span>
+        {removedAt ? (
+          <h3>Esta sala foi fechada pelo administrador em {removedAt}</h3>
+        ) : (
+          <>
+            <form onSubmit={handleSendQuestion}>
+              <textarea
+                placeholder="O que deseja perguntar?"
+                value={newQuestion}
+                onChange={(event) => setNewQuestion(event.target.value)}
+              />
+              <div className="form-footer">
+                {user ? (
+                  <div className="user-data">
+                    <img src={user.avatar} alt={user.name} />
+                    <span>{user.name}</span>
+                  </div>
+                ) : (
+                  <span>
+                    Para enviar uma pergunta,
+                    <button onClick={() => setLoginPanelOpen(!loginPanelOpen)}>
+                      faça seu login
+                    </button>
+                  </span>
+                )}
+                <Button type="submit" disabled={!user}>
+                  Enviar Pergunta
+                </Button>
               </div>
-            ) : (
-              <span>
-                Para enviar uma pergunta,
-                <button onClick={() => setLoginPanelOpen(!loginPanelOpen)}>
-                  faça seu login
-                </button>
-              </span>
+            </form>
+            {loginPanelOpen && !user && (
+              <div className="login-panel">
+                <LoginOptions />
+              </div>
             )}
-            <Button type="submit" disabled={!user}>
-              Enviar Pergunta
-            </Button>
-          </div>
-        </form>
-
-        {loginPanelOpen && !user && (
-          <div className="login-panel">
-            <LoginOptions />
-          </div>
+          </>
         )}
 
         <div className="question-list">

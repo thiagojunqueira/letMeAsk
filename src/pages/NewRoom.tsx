@@ -26,6 +26,45 @@ export function NewRoom() {
 
   const { register, handleSubmit } = useForm();
 
+  async function updateUserProfile(roomId: string | null) {
+    async function addRoomToUserProfile(firebaseUserId: string | null) {
+      if (firebaseUserId) {
+        await database.ref(`users/${firebaseUserId}/rooms`).push({
+          roomId: roomId,
+          isAdmin: true,
+        });
+      }
+    }
+    
+    if (user && roomId) {
+      await database
+            .ref("users")
+            .orderByChild("userId")
+            .equalTo(user?.id)
+            .once("value", async (data) => {
+              const userData = data.val();
+              if (userData) {
+                // usuario existe na entidade
+                const parsedUser = Object.entries(userData).map(
+                  ([key, value]: any) => {
+                    return {
+                      firebaseUserKey: key,
+                    };
+                  }
+                );
+                await addRoomToUserProfile(parsedUser[0].firebaseUserKey)
+              } else {
+                const firebaseUser = await database.ref("users").push({
+                  userId: user.id,
+                  avatar: user?.avatar,
+                  name: user?.name,
+                });
+                await addRoomToUserProfile(firebaseUser.key)
+              }
+            })
+    }
+  }
+
   async function onSubmit(formData: RoomInfoProps, e: any) {
     if (formData.roomName.trim() === "") {
       toast.error("Por favor insira o nome da sala!");
@@ -43,9 +82,11 @@ export function NewRoom() {
       schedulerTime: formData.schedulerTime,
       videoURL: formData.videoUrl,
       authorId: user?.id,
+      authorName: user?.name,
     });
+    await updateUserProfile(firebaseRoom.key);
 
-    toast.success('Sucesso! Redirecionando...')
+    toast.success("Sucesso! Redirecionando...");
     setTimeout(() => {
       history.push(`/admin/rooms/${firebaseRoom.key}`);
     }, 2000);
@@ -53,11 +94,13 @@ export function NewRoom() {
 
   return (
     <div id="new-room">
-      <LeftPanel />
+      {/* <LeftPanel /> */}
       <main>
         <div className="main-content">
           <Toaster />
-          <img src={logoImg} alt="Letmeask logo" />
+          <Link to="/">
+            <img src={logoImg} alt="Letmeask logo" />
+          </Link>
           <button className="go-back" onClick={() => history.push("/")}>
             <img src={backImg} alt="Voltar" />
             <span>Voltar para a página inicial</span>

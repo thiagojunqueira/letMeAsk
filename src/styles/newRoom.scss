@@ -1,8 +1,9 @@
 #new-room {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+  // display: grid;
+  // grid-template-columns: 1fr 2fr;
   align-items: stretch;
   height: 100vh;
+  font-family: 'Poppins', sans-serif;
 
   aside {
     flex: 4;

@@ -4,6 +4,10 @@
   align-items: stretch;
   height: 100vh;
 
+  @media (max-width: 1000px) {
+    display: flex;
+  }
+
   main {
     display: flex;
     flex: 8;

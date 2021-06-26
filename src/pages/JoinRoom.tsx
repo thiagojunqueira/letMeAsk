@@ -29,11 +29,11 @@ export function JoinRoom() {
       return;
     }
 
-    const roomEnded = roomRef.val().removedAt;
-    if (roomEnded) {
-      toast.error(`Esta sala foi encerrada pelo administrador em ${roomEnded}`);
-      return;
-    }
+    // const roomEnded = roomRef.val().removedAt;
+    // if (roomEnded) {
+    //   toast.error(`Esta sala foi encerrada pelo administrador em ${roomEnded}`);
+    //   return;
+    // }
 
     history.push(`/rooms/${roomCode}`);
   }

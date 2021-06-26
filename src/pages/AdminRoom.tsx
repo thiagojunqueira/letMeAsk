@@ -25,7 +25,7 @@ export function AdminRoom() {
   const roomParams = useParams<RoomParams>();
   const roomId = roomParams.id;
   const history = useHistory();
-  const { title, questions, authorId } = useRoom(roomId);
+  const { title, questions, authorId, removedAt } = useRoom(roomId);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -79,16 +79,19 @@ export function AdminRoom() {
               </Link>
               <div>
                 <RoomCode code={roomId} />
-                <Button isOutlined onClick={handleEndRoom}>
-                  Encerrar sala
-                </Button>
+                {!removedAt && (
+                  <Button isOutlined onClick={handleEndRoom}>
+                    Encerrar sala
+                  </Button>
+                )}
               </div>
             </div>
           </header>
 
           <main>
             <div className="room-title">
-              <h1>Sala {title}</h1>
+              <h1>{title}</h1>
+              {removedAt && <span>A sala foi encerrada em {removedAt}</span>}
               {questions.length > 0 && (
                 <span>{questions.length} Perguntas</span>
               )}
