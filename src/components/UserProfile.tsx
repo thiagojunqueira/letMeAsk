@@ -123,7 +123,7 @@ export function UserProfile() {
       <div className="user-info">
         <img src={user?.avatar} alt="avatar" />
         <h3>{user?.name}</h3>
-        <span>{user?.id}</span>
+        {/* <span>{user?.id}</span> */}
       </div>
 
       <div className="stats">
