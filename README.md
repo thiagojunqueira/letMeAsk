@@ -1,46 +1,86 @@
-# Getting Started with Create React App
+# LetMeAsk
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Link da aplicação: [LetMeAsk](https://letmeask-rocketseat-nlw06.vercel.app/)
 
-## Available Scripts
+Este projeto foi desenvolvido durante a Next Level Week, evento da [Rocketseat](https://rocketseat.com.br/) que ocorreu entre os dias 20/06/2021 e 27/06/2021. Além do projeto inicial ensinado pela Rocket, decidi levar a aplicação para um próximo nível, me desafiando a implementar novas features que fariam sentido a usuários da plataforma. Neste README você irá encontrar as principais funcionalidades da aplicação, intruções para rodar o projeto e sugestões para colaboração externa, uma vez que o projeto é open source.
 
-In the project directory, you can run:
+Este projeto foi inicializado utilizando o [Create React App](https://github.com/facebook/create-react-app).
 
-### `yarn start`
+# Sobre o Projeto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+LetMeAsk é uma plataforma desenvolvida para melhorar a experiência de streamers que sofrem com um grande fluxo de perguntas do chat durante uma live. Sejam elas educativas ou de entretenimento, o fluxo de informação do chat público é muito intenso e, muitas vezes, difícil de acompanhar. Sendo assim, a plataforma apresenta perguntas de uma melhor forma, além de possuir um sistema de curtidas, em que o streamer pode se basear para priorizar as perguntas e comentários que serão abordados.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Principais funcionalidades
 
-### `yarn test`
+### Funcionalidade nativas (guiadas pela Rocketseat)
+- Autenticação com o Google utilizando firebase Auth
+- Sistema de criação de salas
+- Sistema de entrada em salas a partir de um identificador único
+- Página de administração de página
+- Envio, armazenamento e apresentação de perguntas dentro de uma sala
+- Sistema de curtidas de perguntas
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Funcionalidade do próximo nível, idealizadas e implementadas por mim
+- Melhorias de layout, responsividade e usabilidade
+  - Utilização do [react-hot-toast](https://react-hot-toast.com/) para apresentação de notificações e erros
+  - Bloqueio de usuários não permissionados em telas sensíveis (administração, por exemplo)
+  - Melhor experiência para autenticação e controle de LogIn e LogOut em várias páginas
+  - Redirecionamento automático caso um administrador entre em sua própria sala
+- Autenticação com Github utilizando [Firebase Auth](https://firebase.google.com/products/auth)
+- Apresentação de um perfil com estatísticas do usuário na plataforma
+  - Criação de uma nova entidade no [realtime database](https://firebase.google.com/products/realtime-database) responsável por armazenar dados do usuário e as salas que o mesmo está vinculado (como administrador e como usuário)
+  - Apresentação de dados analíticos: Número de salas administradas, perguntas respondidas, perguntas pendentes e salas conhecidas como usuário
+  - Botões de ação aderentes à experiência: Listar salas (ver abaixo), criar um sala ou entrar em um sala
+- Nova página com uma listagem de salas conhecidas
+  - Apresentação das salas que o usuário administra e também as salas que o mesmo já entrou em algum momento
+  - Interface diferenciada que ajuda a identificar as duas categorias: Adminisitrador ou usuário
+  - Botão para navegação direta para a sala (de perguntas ou de administrador)
+  - Botão de redirecionamento para o link da live cadastrada pelo dono da sala
+  - Informações extras de acordo com o novo formulário de criação de sala
+- Novas informações para criação de salas, utilizando [react-hook-form](https://react-hook-form.com/)
+  - Input para descrição, data, hora e link para acessar live
+  - Redirecionamento automático para página de administração
+- Criação de uma entidade 'users' no banco de dados
+  - Controle de salas visitadas
+  - Armazenamento de dados fixos do usuário
+  
+# Layout da Aplicação
 
-### `yarn build`
+![home-login](https://i.ibb.co/g9g0KB5/home-login.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![home-stats](https://i.ibb.co/nwYXnxH/user-stats.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![list-rooms](https://i.ibb.co/g3L3QX2/list-rooms.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![new-room](https://i.ibb.co/jJPMKd7/new-room.png)
 
-### `yarn eject`
+![join-room](https://i.ibb.co/ys0PMBk/join-room.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![room-qustions](https://i.ibb.co/YyStbwm/room-questions.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![admin-room](https://i.ibb.co/qNzFk7t/admin-room.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Executando o projeto
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Configurando suas variáveis de ambiente
+Após feito o clone do repositório, entre na pasta em que o mesmo se encontra e crie um arquivo `.env.local` na raiz do projeto, baseado no arquivo `.env.example` disponibilizado no repositório. Todas as variáveis de ambiente necessárias para a execução do projeto estão presente neste segundo arquivo.
 
-## Learn More
+O arquivo `.env.local` deve ser preenchido de acordo com as informações da instância do firebase. Para maiores detalhes de criação de um projeto no firebase, consulte a [documentação](https://firebase.google.com/docs/web/setup). Para aplicações pequenas (como é o caso desta), é gratuito e vale a experiência 😉
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Inicializando o projeto
+Execute o comando `yarn start`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Após a compilação, a aplicação deve estar disponível em [http://localhost:3000](http://localhost:3000)
+
+# Tecnologias utilizadas
+- ReactJS (SPA configurado a partir do CRA)
+- TypeScript
+- Firebase Realtime Database
+- Firebase Auth (Google e Github)
+- Diversos
+  - React-Hot-Toast
+  - React Hooks & Custom Hooks
+  - SASS
+
+# Autor
+Thiago Palermo Junqueira
